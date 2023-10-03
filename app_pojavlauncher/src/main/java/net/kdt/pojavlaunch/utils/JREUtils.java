@@ -35,6 +35,11 @@ import javax.microedition.khronos.egl.EGLDisplay;
 public class JREUtils {
     public JREUtils() {}
 
+    public static void init()
+    {
+
+    }
+
     public static String LD_LIBRARY_PATH;
     public static String jvmLibraryPath;
 

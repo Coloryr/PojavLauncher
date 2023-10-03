@@ -20,8 +20,6 @@ public class PojavApplication {
 	public static final ExecutorService sExecutorService = new ThreadPoolExecutor(4, 4, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
 
 	public static void init(Context context) {
-		new JREUtils();
-
 		Thread.setDefaultUncaughtExceptionHandler((thread, th) -> {
 			File crashFile = new File(Tools.DIR_GAME_HOME, "latestcrash.txt");
 			try {

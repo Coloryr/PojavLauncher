@@ -56,7 +56,7 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PojavApplication.init(this);
+        JREUtils.init();
 
         setContentView(R.layout.activity_java_gui_launcher);
 

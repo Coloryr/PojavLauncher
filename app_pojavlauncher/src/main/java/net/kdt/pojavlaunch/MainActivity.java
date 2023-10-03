@@ -90,7 +90,11 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PojavApplication.init(this);
+        JREUtils.init();
+
+        SoDump dump = new SoDump();
+        //dump.getAllSOLoaded();
+        dump.getCurrSOLoaded();
 
         minecraftProfile = new MinecraftProfile();
         Intent intent = getIntent();
@@ -426,10 +430,10 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         printLauncherInfo(versionId);
         JREUtils.redirectAndPrintJRELog();
         int res = Tools.launchMinecraft(this, minecraftProfile, socketDisplay == null ? 0 : socketDisplay.port);
-        Intent intent = new Intent();
-        intent.putExtra("res", res);
-        setResult(RESULT_OK, intent);
-        finish();
+//        Intent intent = new Intent();
+//        intent.putExtra("res", res);
+//        setResult(RESULT_OK, intent);
+//        finish();
     }
 
     private void printLauncherInfo(String gameVersion) {
