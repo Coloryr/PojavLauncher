@@ -51,6 +51,7 @@ import org.lwjgl.glfw.CallbackBridge;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends BaseActivity implements ControlButtonMenuListener, EditorExitable {
     public static volatile ClipboardManager GLOBAL_CLIPBOARD;
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
         minecraftProfile = new MinecraftProfile();
         Intent intent = getIntent();
-        minecraftProfile.gameDir = intent.getStringExtra("GAME_DIR");
+        minecraftProfile.gameDir = new String(intent.getByteArrayExtra("GAME_DIR"), StandardCharsets.UTF_8);
         minecraftProfile.jvmArgs = intent.getStringArrayExtra("JVM_ARGS");
         minecraftProfile.gameArgs = intent.getStringArrayExtra("GAME_ARGS");
         minecraftProfile.version = intent.getStringExtra("GAME_VERSION");
@@ -108,6 +109,8 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         minecraftProfile.classpath = intent.getStringExtra("CLASSPATH");
         minecraftProfile.javaDir = intent.getStringExtra("JAVA_DIR");
         minecraftProfile.v2 = intent.getBooleanExtra("GAME_V2", false);
+
+        Log.i("dump", "GAME_DIR:" + minecraftProfile.gameDir);
 
         if("1.12.2".equals(minecraftProfile.version)) {
             socketDisplay = new SocketDisplay(this::forgeUpdate);
