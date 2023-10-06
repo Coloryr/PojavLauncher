@@ -430,9 +430,20 @@ public class JREUtils {
             case "opengles2":
             case "opengles2_5":
             case "opengles3":
-                renderLibrary = "libgl4es_114.so"; break;
-            case "vulkan_zink": renderLibrary = "libOSMesa.so"; break;
-            case "opengles3_desktopgl_angle_vulkan" : renderLibrary = "libtinywrapper.so"; break;
+                renderLibrary = "libgl4es_114.so";
+                break;
+            case "opengles2_vgpu":
+                renderLibrary = "libvgpu.so";
+                break;
+            case "opengles3_virgl":
+                renderLibrary = "libOSMesa_virgl.so";
+                break;
+            case "vulkan_zink":
+                renderLibrary = "libOSMesa.so";
+                break;
+            case "opengles3_desktopgl_angle_vulkan" :
+                renderLibrary = "libtinywrapper.so";
+                break;
             default:
                 Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
                 renderLibrary = "libgl4es_114.so";
