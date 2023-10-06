@@ -26,10 +26,8 @@ void (*glReadPixels_p) (GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 
 void dlsym_OSMesa() {
     char* main_path = NULL;
-    char* alt_path = NULL;
     if(pojav_environ->config_renderer == RENDERER_VK_ZINK) {
-        if(asprintf(&main_path, "%s/libOSMesa.so", getenv("POJAV_NATIVEDIR")) == -1 ||
-            asprintf(&alt_path, "%s/libOSMesa.so.8", getenv("POJAV_NATIVEDIR")) == -1) {
+        if(asprintf(&main_path, "%s/libOSMesa.so", getenv("POJAV_NATIVEDIR")) == -1) {
         abort();
         }
     } else if(pojav_environ->config_renderer == RENDERER_VIRGL) {
@@ -38,8 +36,7 @@ void dlsym_OSMesa() {
         }
     }
     void* dl_handle = NULL;
-    dl_handle = dlopen(alt_path, RTLD_GLOBAL);
-    if(dl_handle == NULL) dl_handle = dlopen(main_path, RTLD_GLOBAL);
+    dl_handle = dlopen(main_path, RTLD_GLOBAL);
     if(dl_handle == NULL) abort();
     OSMesaMakeCurrent_p = dlsym(dl_handle, "OSMesaMakeCurrent");
     OSMesaGetCurrentContext_p = dlsym(dl_handle,"OSMesaGetCurrentContext");
