@@ -117,17 +117,9 @@ public final class Tools {
         if (port != 0) {
             javaArgList.add("-DColorMC.Socket=" + port);
         }
-        getCacioJavaArgs(javaArgList, minecraftProfile.jvmVersion == 8);
+        getCacioJavaArgs(javaArgList, runtime.javaVersion == 8);
 
-        String cp = getLWJGL3ClassPath() + ":" + minecraftProfile.classpath;
-        for (String item : minecraftProfile.jvmArgs) {
-            javaArgList.add(item
-                    .replaceAll("%natives_directory%", Tools.NATIVE_LIB_DIR)
-                    .replaceAll("%classpath%", cp));
-        }
-
-        javaArgList.add(minecraftProfile.mainclass);
-        javaArgList.addAll(Arrays.asList(minecraftProfile.gameArgs));
+        javaArgList.addAll(Arrays.asList(minecraftProfile.args));
 
         return JREUtils.launchJavaVM(activity, runtime, minecraftProfile.gameDir, javaArgList);
     }
@@ -190,7 +182,7 @@ public final class Tools {
         javaArgList.add(cacioClasspath.toString());
     }
 
-    private static String getLWJGL3ClassPath() {
+    public static String getLWJGL3ClassPath() {
         StringBuilder libStr = new StringBuilder();
         File lwjgl3Folder = new File(Tools.COMPONENTS_DIR, "lwjgl3");
         File[] lwjgl3Files = lwjgl3Folder.listFiles();

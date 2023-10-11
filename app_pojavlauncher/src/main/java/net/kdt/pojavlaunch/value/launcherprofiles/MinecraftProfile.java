@@ -8,11 +8,7 @@ public class MinecraftProfile {
 	public String time;
 	public String gameDir;
 	public String javaDir;
-	public int jvmVersion;
-	public String mainclass;
-	public String classpath;
 	public boolean v2;
-	public String[] jvmArgs;
-	public String[] gameArgs;
+	public String[] args;
 	public String controlFile;
 }

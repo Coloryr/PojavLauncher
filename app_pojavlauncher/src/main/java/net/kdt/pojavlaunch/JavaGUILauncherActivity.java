@@ -170,7 +170,7 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
                         intent.putExtra("res", exit == 0);
                         setResult(RESULT_OK, intent);
                         finish();
-                        //fullyExit();
+                        MainActivity.fullyExit();
                     });
 
                 } catch (Throwable e) {

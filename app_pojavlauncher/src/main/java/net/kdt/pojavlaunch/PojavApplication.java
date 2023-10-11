@@ -45,6 +45,7 @@ public class PojavApplication {
 			MainActivity.fullyExit();
 		});
 
+		Tools.APP_NAME = "ColorMC";
 		Tools.DIR_CACHE = context.getCacheDir();
 		Tools.DEVICE_ARCHITECTURE = Architecture.getDeviceArchitecture();
 		//Force x86 lib directory for Asus x86 based zenfones
