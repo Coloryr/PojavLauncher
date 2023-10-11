@@ -1,7 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
@@ -9,7 +7,7 @@
     <!-- Holding most of the dynamic content -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_fragment"
-        android:name="net.kdt.pojavlaunch.fragments.MainMenuFragment"
+        android:name="net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
