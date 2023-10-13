@@ -44,7 +44,6 @@ public class AsyncAssetManager {
                 // we repack them to a single file here
                 unpackComponent(ctx, "lwjgl3");
                 unpackComponent(ctx, "security");
-                unpackComponent(ctx, "arc_dns_injector");
             } catch (IOException e) {
                 Log.e("AsyncAssetManager", "Failed o unpack components !", e);
             }
