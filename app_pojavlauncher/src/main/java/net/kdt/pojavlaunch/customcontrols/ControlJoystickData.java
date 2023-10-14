@@ -9,7 +9,7 @@ public class ControlJoystickData extends ControlData {
         super();
     }
 
-    public ControlJoystickData(ControlData properties) {
+    public ControlJoystickData(ControlJoystickData properties) {
         super(properties);
     }
 }
