@@ -426,10 +426,13 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         printLauncherInfo(versionId);
         JREUtils.redirectAndPrintJRELog();
         int res = Tools.launchMinecraft(this, minecraftProfile, socketDisplay == null ? 0 : socketDisplay.port);
-        Intent intent = new Intent();
-        intent.putExtra("res", res);
-        setResult(RESULT_OK, intent);
-        finish();
+        runOnUiThread(() -> {
+            Intent intent = new Intent();
+            intent.putExtra("res", res);
+            setResult(RESULT_OK, intent);
+            finish();
+            MainActivity.fullyExit();
+        });
     }
 
     private void printLauncherInfo(String gameVersion) {
