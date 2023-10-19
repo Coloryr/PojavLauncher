@@ -1,64 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App name part -->
-    <string name="app_name">PojavView（适用于 Android 的《Minecraft：Java版》）</string>
-    <string name="app_short_name">PojavView</string>
-    <string name="app_motd">在您的设备上启动《Minecraft：Java版》！</string>
     <!-- Action bar part -->
     <!-- Languages list part -->
     <!-- Login strings -->
-    <string name="login_online_username_hint">电子邮箱或用户名</string>
-    <string name="login_online_password_hint">密码</string>
-    <string name="login_online_check_keeplogin">保持登录状态</string>
-    <string name="login_online_login_label">登录</string>
-    <string name="login_error_invalid_username">用户名无效。用户名必须在 3-16 个字符的范围内，且只能包含 A-Z、a-z、0-9 和下划线。</string>
-    <string name="login_error_exist_username">用户名已存在</string>
-    <string name="login_microsoft">微软账号登录</string>
-    <string name="login_select_account">选择账户</string>
-    <string name="login_title_no_saved_account">该账户不存在！</string>
-    <string name="login_dialog_no_saved_account">尚未保存任何账户。\n使用<b>“保持登录状态”</b>选项以在首次登录后保存账户。</string>
     <!-- Hint -->
     <string name="hint_control_mapping">"点击顶部中央齿轮图标打开背景菜单⚙\n点击一个按钮进行自定义：编辑、缩放、删除或自定义其键绑定。"</string>
     <!-- Warnings -->
-    <string name="warning_remove_account">此账户将被移除！</string>
     <!-- AlertDialog title -->
-    <string name="alerttitle_install_jre">安装 Java 运行时 %1$s （.tar.xz）</string>
-    <string name="alerttitle_installmod">选择模组安装器</string>
     <!-- Error messages -->
     <string name="error_fatal">意外崩溃</string>
-    <string name="error_no_version">无版本！</string>
     <string name="error_show_more">显示细节</string>
     <string name="error_show_less">隐藏细节</string>
     <!-- Toast messages -->
-    <string name="toast_permission_denied">需要存储读写权限！</string>
-    <string name="toast_optifine_success">安装成功</string>
-    <string name="toast_uninstalljre_done">Java 运行时卸载成功</string>
     <!--
     <string name="toast_3">Exit</string>
     -->
     <!-- MCLauncherActivity: Tabs -->
-    <string name="mcl_tab_wiki">百科</string>
-    <string name="mcl_tab_console">开发控制台</string>
-    <string name="mcl_tab_crash">崩溃日志</string>
     <!-- MCLauncherActivity: Account status -->
-    <string name="mcl_account_connected">已连接</string>
-    <string name="mcl_account_local">本地模式</string>
     <!-- MCLauncherActivity: Strings -->
-    <string name="mcl_version_msg">Minecraft %1$s 就绪</string>
-    <string name="mcl_launch_cleancache">正在清理缓存</string>
-    <string name="mcl_launch_downloading">正在下载 %1$s</string>
-    <string name="mcl_launch_downloading_progress">"正在下载 %1$s (%2$.2f MB / %3$.2f MB)"</string>
-    <string name="mcl_launch_download_assets">正在准备下载资源</string>
-    <string name="mcl_launch_error_localmode">Minecraft 无法在本地账户中进行安装，请切换到正版账户以继续。</string>
-    <string name="mcl_options">选项</string>
-    <string name="mcl_option_modinstall">启动模组安装器（例如 Forge、LabyMod、Fabric...）</string>
-    <string name="mcl_option_modinstallwitharg">以自定义参数启动模组安装器</string>
     <string name="mcl_option_customcontrol">自定义控制按键</string>
-    <string name="mcl_option_settings">设置</string>
-    <string name="mcl_option_about">关于</string>
     <string name="mcl_setting_title_use_surface_view">使用备用表面渲染（Surface Rendering）</string>
     <string name="mcl_setting_subtitle_use_surface_view">可能有助于提升受 GPU 机能限制的性能</string>
-    <string name="mcl_setting_title_uninstalljre">卸载 Java 运行时</string>
     <string name="mcl_setting_subtitle_uninstalljre">【需要重启启动器】这会让你重新安装 Java 运行时。</string>
     <string name="mcl_setting_title_freeform">以自由窗口模式启动 Minecraft</string>
     <string name="mcl_setting_subtitle_freeform">在浮动窗口中启动 Minecraft。需要 Android 7.0+</string>
@@ -177,6 +140,7 @@
     <string name="customctrl_keycombine_shift">Shift</string>
     <string name="customctrl_addbutton">添加按键</string>
     <string name="customctrl_addbutton_drawer">添加组合键</string>
+    <string name="customctrl_addbutton_joystick">添加摇杆</string>
     <string name="customctrl_addsubbutton">添加子按钮</string>
     <string name="customctrl_add_subbutton_message">子按钮 n°%1$d 已添加！</string>
     <string name="customctrl_selectdefault">选择默认 .json 控制键位</string>
@@ -319,4 +283,16 @@
 
     <string name="preference_vulkan_driver_system_title">使用系统 Vulkan 驱动</string>
     <string name="preference_vulkan_driver_system_description">强制启动器在 Adreno GPU 上使用系统 Vulkan 驱动而非 Turnip。仅影响使用 Vulkan 的 Zink 和模组。</string>
+    <string name="preference_category_gestures">手势</string>
+    <string name="preference_category_buttons">按钮</string>
+    <string name="preference_category_experimental_settings">实验性内容</string>
+    <string name="preference_category_java_tweaks">Jvm调整</string>
+    <string name="preference_category_main_categories">分组</string>
+    <string name="preference_category_miscellaneous">其他设置</string>
+    <string name="preference_category_video">视频选项</string>
+    <string name="preference_mouse_description">设置游戏内鼠标图标</string>
+    <string name="preference_mouse_title">鼠标图标自定义</string>
+    <string name="notif_mouse">设置完成</string>
+    <string name="preference_mouse_title1">删除设置的鼠标图标</string>
+    <string name="notif_mouse1">删除成功</string>
 </resources>

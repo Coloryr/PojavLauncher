@@ -24,6 +24,18 @@
     />
 
     <Preference
+            android:key="control_mouse_setting"
+            android:title="@string/preference_mouse_title"
+            android:summary="@string/preference_mouse_description"
+            android:icon="@drawable/ic_mouse_pointer"
+    />
+
+    <Preference
+            android:key="control_mouse_remove"
+            android:title="@string/preference_mouse_title1"
+    />
+
+    <Preference
             android:key="java_screen_setting"
             android:title="@string/preference_java_title"
             android:summary="@string/preference_java_description"

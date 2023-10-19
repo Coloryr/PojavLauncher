@@ -5,6 +5,8 @@ import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -21,6 +23,10 @@ import androidx.core.content.res.ResourcesCompat;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 
 import org.lwjgl.glfw.CallbackBridge;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * Class dealing with the virtual mouse
@@ -157,8 +163,22 @@ public class Touchpad extends FrameLayout implements GrabListener{
     }
 
     private void init(){
+        File file = new File(Tools.DIR_GAME_HOME, "mouse");
         // Setup mouse pointer
-        mMousePointerImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mouse_pointer, getContext().getTheme()));
+        if(file.exists()) {
+            try {
+                InputStream stream1 = new FileInputStream(file);
+                Bitmap bitmap = BitmapFactory.decodeStream(stream1);
+                mMousePointerImageView.setImageBitmap(bitmap);
+                stream1.close();
+            } catch (Exception e) {
+
+            }
+        }
+        else {
+            mMousePointerImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mouse_pointer, getContext().getTheme()));
+        }
+
         mMousePointerImageView.post(() -> {
             ViewGroup.LayoutParams params = mMousePointerImageView.getLayoutParams();
             params.width = (int) (36 / 100f * LauncherPreferences.PREF_MOUSESCALE);
