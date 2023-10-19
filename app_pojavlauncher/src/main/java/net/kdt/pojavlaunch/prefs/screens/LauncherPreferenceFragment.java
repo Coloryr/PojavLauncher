@@ -52,7 +52,7 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
             return true;
         });
 
-        findPreference("control_mouse_setting1").setOnPreferenceClickListener((preference) -> {
+        findPreference("control_mouse_remove").setOnPreferenceClickListener((preference) -> {
             File file = new File(Tools.DIR_GAME_HOME, "mouse");
             if (file.exists()) {
                 file.delete();
