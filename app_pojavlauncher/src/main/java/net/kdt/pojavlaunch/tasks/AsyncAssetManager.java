@@ -27,7 +27,6 @@ public class AsyncAssetManager {
     public static void unpackSingleFiles(Context ctx) {
         sExecutorService.execute(() -> {
             try {
-                Tools.copyAssetFile(ctx, "default.json", Tools.CTRLMAP_PATH, false);
                 Tools.copyAssetFile(ctx, "resolv.conf", Tools.COMPONENTS_DIR, false);
             } catch (IOException e) {
                 Log.e("AsyncAssetManager", "Failed to unpack critical components !");
