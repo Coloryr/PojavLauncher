@@ -1,16 +1,10 @@
 //
-// Modifile by Vera-Firefly on 28.08.2023.
+// Created by maks on 21.09.2022.
 //
 #include <stdio.h>
 #include <stdlib.h>
 #include <dlfcn.h>
-#include "environ/environ.h"
 #include "osmesa_loader.h"
-
-#define RENDERER_GL4ES 1
-#define RENDERER_VK_ZINK 2
-#define RENDERER_VIRGL 3
-#define RENDERER_VULKAN 4
 
 GLboolean (*OSMesaMakeCurrent_p) (OSMesaContext ctx, void *buffer, GLenum type,
                                          GLsizei width, GLsizei height);
@@ -26,17 +20,14 @@ void (*glReadPixels_p) (GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 
 void dlsym_OSMesa() {
     char* main_path = NULL;
-    if(pojav_environ->config_renderer == RENDERER_VK_ZINK) {
-        if(asprintf(&main_path, "%s/libOSMesa.so", getenv("POJAV_NATIVEDIR")) == -1) {
+    char* alt_path = NULL;
+    if(asprintf(&main_path, "%s/libOSMesa.so", getenv("POJAV_NATIVEDIR")) == -1 ||
+            asprintf(&alt_path, "%s/libOSMesa.so.8", getenv("POJAV_NATIVEDIR")) == -1) {
         abort();
-        }
-    } else if(pojav_environ->config_renderer == RENDERER_VIRGL) {
-        if(asprintf(&main_path, "%s/libOSMesa_virgl.so", getenv("POJAV_NATIVEDIR")) == -1) {
-            abort();
-        }
     }
     void* dl_handle = NULL;
-    dl_handle = dlopen(main_path, RTLD_GLOBAL);
+    dl_handle = dlopen(alt_path, RTLD_GLOBAL);
+    if(dl_handle == NULL) dl_handle = dlopen(main_path, RTLD_GLOBAL);
     if(dl_handle == NULL) abort();
     OSMesaMakeCurrent_p = dlsym(dl_handle, "OSMesaMakeCurrent");
     OSMesaGetCurrentContext_p = dlsym(dl_handle,"OSMesaGetCurrentContext");
