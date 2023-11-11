@@ -41,7 +41,7 @@
         <item>opengles2</item> <!-- gl4es_extra 1.1.4 with OpenGL ES 2/"3" -->
         <item>opengles2_vgpu</item> <!-- vgpurenderer with OpenGL ES 2 OpenGL4.4 -->
         <item>vulkan_zink</item> <!-- zinkrenderer with Vulkan OpenGL4.6 -->
-<!--        <item>opengles3_virgl</item> &lt;!&ndash; virglrenderer with OpenGL ES 3 &ndash;&gt;-->
+        <item>opengles3_virgl</item> <!-- virglrenderer with OpenGL ES 3 -->
         <item>opengles3_desktopgl_angle_vulkan</item>
     </string-array>
 </resources>
