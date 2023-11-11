@@ -12,10 +12,7 @@ import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -23,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,6 +30,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.kdt.LoggerView;
@@ -53,7 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class MainActivity extends BaseActivity implements ControlButtonMenuListener, EditorExitable {
+public class MainActivity extends BaseActivity implements ControlButtonMenuListener, EditorExitable, ServiceConnection {
     public static volatile ClipboardManager GLOBAL_CLIPBOARD;
 
     volatile public static boolean isInputStackCall;
@@ -87,6 +86,8 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     private ProgressBar forgeP2P;
     private ProgressBar forgeP3P;
 
+    private GameService.LocalBinder mServiceBinder;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +111,9 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         }
 
         MCOptionUtils.load(minecraftProfile.gameDir);
-        GameService.startService(this);
+        Intent gameServiceIntent = new Intent(this, GameService.class);
+        // Start the service a bit early
+        ContextCompat.startForegroundService(this, gameServiceIntent);
         initLayout(R.layout.activity_basemain);
         CallbackBridge.addGrabListener(touchpad);
         CallbackBridge.addGrabListener(minecraftGLView);
@@ -142,6 +145,9 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         MCOptionUtils.MCOptionListener optionListener = MCOptionUtils::getMcScale;
         MCOptionUtils.addMCOptionListener(optionListener);
         mControlLayout.setModifiable(false);
+
+        //Now, attach to the service. The game will only start when this happens, to make sure that we know the right state.
+        bindService(gameServiceIntent, this, 0);
     }
 
     @SuppressLint("SetTextI18n")
@@ -279,7 +285,6 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
                 }
             });
 
-            minecraftGLView.start();
         } catch (Throwable e) {
             Tools.showError(this, e, true);
         }
@@ -426,6 +431,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         printLauncherInfo(versionId);
         JREUtils.redirectAndPrintJRELog();
         int res = Tools.launchMinecraft(this, minecraftProfile, socketDisplay == null ? 0 : socketDisplay.port);
+        Tools.runOnUiThread(()-> mServiceBinder.isActive = false);
         runOnUiThread(() -> {
             Intent intent = new Intent();
             intent.putExtra("res", res);
@@ -703,5 +709,17 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         navDrawer.setAdapter(gameActionArrayAdapter);
         navDrawer.setOnItemClickListener(gameActionClickListener);
         isInEditor = false;
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        GameService.LocalBinder localBinder = (GameService.LocalBinder) service;
+        mServiceBinder = localBinder;
+        minecraftGLView.start(localBinder.isActive);
+        localBinder.isActive = true;
+    }
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+
     }
 }

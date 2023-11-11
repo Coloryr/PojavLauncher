@@ -335,4 +335,7 @@
     <string name="notif_mouse">Set done.</string>
     <string name="preference_mouse_title1">Remove mouse icon</string>
     <string name="notif_mouse1">Delete done</string>
+
+    <string name="preference_vsync_in_zink_title">Allow V-Sync with Zink</string>
+    <string name="preference_vsync_in_zink_description">Allows the launcher to use internal system APIs to enable V-Sync for Zink. Turn this off if your launcher suddenly crashes with Zink after a system update.</string>
 </resources>

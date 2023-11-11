@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.Process;
 
@@ -16,10 +17,7 @@ import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 
 public class GameService extends Service {
-    public static void startService(Context context) {
-        Intent intent = new Intent(context, GameService.class);
-        ContextCompat.startForegroundService(context, intent);
-    }
+    private final LocalBinder mLocalBinder = new LocalBinder();
 
     @Override
     public void onCreate() {
@@ -57,6 +55,10 @@ public class GameService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mLocalBinder;
+    }
+
+    public static class LocalBinder extends Binder {
+        public boolean isActive;
     }
 }

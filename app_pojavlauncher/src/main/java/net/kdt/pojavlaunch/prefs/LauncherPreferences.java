@@ -50,6 +50,7 @@ public class LauncherPreferences {
     public static boolean PREF_ZINK_PREFER_SYSTEM_DRIVER = false;
     public static float PREF_DEADZONE_SCALE = 1f;
     public static boolean PREF_BIG_CORE_AFFINITY = false;
+    public static boolean PREF_VSYNC_IN_ZINK = true;
 
 
 
@@ -90,6 +91,7 @@ public class LauncherPreferences {
         PREF_DEADZONE_SCALE = ((float) DEFAULT_PREF.getInt("gamepad_deadzone_scale", 100))/100f;
         PREF_BIG_CORE_AFFINITY = DEFAULT_PREF.getBoolean("bigCoreAffinity", false);
         PREF_ZINK_PREFER_SYSTEM_DRIVER = DEFAULT_PREF.getBoolean("zinkPreferSystemDriver", false);
+        PREF_VSYNC_IN_ZINK = DEFAULT_PREF.getBoolean("vsync_in_zink", true);
     }
 
     /** Compute the notch size to avoid being out of bounds */

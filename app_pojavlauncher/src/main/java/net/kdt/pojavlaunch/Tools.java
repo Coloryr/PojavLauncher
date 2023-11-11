@@ -35,6 +35,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -101,7 +102,7 @@ public final class Tools {
         NATIVE_LIB_DIR = ctx.getApplicationInfo().nativeLibraryDir;
     }
 
-    public static int launchMinecraft(final Activity activity, MinecraftProfile minecraftProfile, int port) throws Throwable {
+    public static int launchMinecraft(final AppCompatActivity activity, MinecraftProfile minecraftProfile, int port) throws Throwable {
         Runtime runtime = MultiRTUtils.read(minecraftProfile.javaDir);
         if (runtime == null) {
             Logger.appendToLog("No find runtime in: " + minecraftProfile.javaDir);
