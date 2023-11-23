@@ -1,5 +1,5 @@
 //
-// Created by maks on 21.09.2022.
+// Modifile by Vera-Firefly on 28.08.2023.
 //
 
 #ifndef POJAVLAUNCHER_OSMESA_LOADER_H

@@ -124,7 +124,6 @@ public class ActionRow extends LinearLayout {
         if(parent == null) return mSide;//Value should not matter
 
         int side = SIDE_TOP;
-
         float futurePos = getYPosition(side);
         if(futurePos + getHeight() > (parent.getHeight() + getHeight()/2f)){
             side = SIDE_TOP;

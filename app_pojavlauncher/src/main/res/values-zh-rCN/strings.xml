@@ -295,4 +295,8 @@
     <string name="notif_mouse">设置完成</string>
     <string name="preference_mouse_title1">删除设置的鼠标图标</string>
     <string name="notif_mouse1">删除成功</string>
+
+    <string name="preference_vsync_in_zink_title">允许在使用 Zink 时启用垂直同步</string>
+    <string name="preference_vsync_in_zink_description">允许启动器使用内部系统 API 为 Zink 启用垂直同步，如果您的启动器在系统更新后在使用 Zink 时突然崩溃，请关闭此选项。</string>
+
 </resources>
