@@ -220,26 +220,17 @@ public class JREUtils {
 
         if(LOCAL_RENDERER != null) {
             envMap.put("POJAV_RENDERER", LOCAL_RENDERER);
-            if(LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan")) {
+            if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan")) {
                 envMap.put("LIBGL_ES", "3");
-                envMap.put("POJAVEXEC_EGL","libEGL_angle.so"); // Use ANGLE EGL
+                envMap.put("POJAVEXEC_EGL", "libEGL_angle.so"); // Use ANGLE EGL
+            } else if (LOCAL_RENDERER.equals("malihw_panfrost")) {
+                envMap.put("POJAVEXEC_OSMESA", "libOSMesa_pan.so");
             }
         }
         if(LauncherPreferences.PREF_BIG_CORE_AFFINITY) envMap.put("POJAV_BIG_CORE_AFFINITY", "1");
         envMap.put("AWTSTUB_WIDTH", Integer.toString(CallbackBridge.windowWidth > 0 ? CallbackBridge.windowWidth : CallbackBridge.physicalWidth));
         envMap.put("AWTSTUB_HEIGHT", Integer.toString(CallbackBridge.windowHeight > 0 ? CallbackBridge.windowHeight : CallbackBridge.physicalHeight));
 
-        File customEnvFile = new File(Tools.DIR_GAME_HOME, "custom_env.txt");
-        if (customEnvFile.exists() && customEnvFile.isFile()) {
-            BufferedReader reader = new BufferedReader(new FileReader(customEnvFile));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Not use split() as only split first one
-                int index = line.indexOf("=");
-                envMap.put(line.substring(0, index), line.substring(index + 1));
-            }
-            reader.close();
-        }
         if(!envMap.containsKey("LIBGL_ES") && LOCAL_RENDERER != null) {
             int glesMajor = getDetectedVersion();
             Log.i("glesDetect","GLES version detected: "+glesMajor);
@@ -326,7 +317,7 @@ public class JREUtils {
         String resolvFile;
         resolvFile = new File(Tools.COMPONENTS_DIR, "resolv.conf").getAbsolutePath();
 
-        ArrayList<String> overridableArguments = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 "-Djava.home=" + runtimeHome,
                 "-Djava.io.tmpdir=" + Tools.DIR_CACHE.getAbsolutePath(),
                 "-Djna.boot.library.path=" + NATIVE_LIB_DIR,
@@ -353,8 +344,6 @@ public class JREUtils {
                 "-Dfml.earlyprogresswindow=false", //Forge 1.14+ workaround
                 "-Dloader.disable_forked_guis=true"
         ));
-
-        return overridableArguments;
     }
 
     /**
@@ -434,6 +423,9 @@ public class JREUtils {
                 break;
             case "vulkan_zink":
                 renderLibrary = "libOSMesa_8.so";
+                break;
+            case "malihw_panfrost":
+                renderLibrary = "libOSMesa_pan.so";
                 break;
             case "opengles3_desktopgl_angle_vulkan" :
                 renderLibrary = "libtinywrapper.so";
