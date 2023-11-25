@@ -51,6 +51,8 @@ import org.lwjgl.glfw.CallbackBridge;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends BaseActivity implements ControlButtonMenuListener, EditorExitable, ServiceConnection {
     public static volatile ClipboardManager GLOBAL_CLIPBOARD;
@@ -110,11 +112,19 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
             socketDisplay = new SocketDisplay(this::forgeUpdate);
         }
 
+        Map<String, String> topenv = new HashMap<>();
+        final String[] envKeys = getIntent().getExtras().getStringArray("ENV_KEY");
+        final String[] envValues = getIntent().getExtras().getStringArray("ENV_VALUE");
+
+        for(int a=0;a<envKeys.length;a++) {
+            topenv.put(envKeys[a], envValues[a]);
+        }
+
         MCOptionUtils.load(minecraftProfile.gameDir);
         Intent gameServiceIntent = new Intent(this, GameService.class);
         // Start the service a bit early
         ContextCompat.startForegroundService(this, gameServiceIntent);
-        initLayout(R.layout.activity_basemain);
+        initLayout(R.layout.activity_basemain, topenv);
         CallbackBridge.addGrabListener(touchpad);
         CallbackBridge.addGrabListener(minecraftGLView);
         if(LauncherPreferences.PREF_ENABLE_GYRO) mGyroControl = new GyroControl(this);
@@ -225,7 +235,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         });
     }
 
-    protected void initLayout(int resId) {
+    protected void initLayout(int resId, Map<String, String> topenv) {
         setContentView(resId);
         bindValues();
         mControlLayout.setMenuListener(this);
@@ -279,7 +289,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
                         touchpad.post(() -> touchpad.switchState());
                     }
 
-                    runCraft(finalVersion);
+                    runCraft(finalVersion, topenv);
                 }catch (Throwable e){
                     Tools.showError(getApplicationContext(), e, true);
                 }
@@ -416,7 +426,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         return Build.VERSION.SDK_INT >= 26;
     }
 
-    private void runCraft(String versionId) throws Throwable {
+    private void runCraft(String versionId, Map<String, String> topenv) throws Throwable {
         if(Tools.LOCAL_RENDERER == null) {
             Tools.LOCAL_RENDERER = LauncherPreferences.PREF_RENDERER;
         }
@@ -430,7 +440,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         Logger.appendToLog("--------- beginning with launcher debug");
         printLauncherInfo(versionId);
         JREUtils.redirectAndPrintJRELog();
-        int res = Tools.launchMinecraft(this, minecraftProfile, socketDisplay == null ? 0 : socketDisplay.port);
+        int res = Tools.launchMinecraft(this, minecraftProfile, socketDisplay == null ? 0 : socketDisplay.port, topenv);
         Tools.runOnUiThread(()-> mServiceBinder.isActive = false);
         runOnUiThread(() -> {
             Intent intent = new Intent();

@@ -169,7 +169,7 @@ public class JREUtils {
                 NATIVE_LIB_DIR;
     }
 
-    public static void setJavaEnvironment(String jreHome) throws Throwable {
+    public static void setJavaEnvironment(String jreHome, Map<String, String> topenv) throws Throwable {
         Map<String, String> envMap = new ArrayMap<>();
         envMap.put("POJAV_NATIVEDIR", NATIVE_LIB_DIR);
         envMap.put("JAVA_HOME", jreHome);
@@ -246,6 +246,9 @@ public class JREUtils {
                 envMap.put("LIBGL_ES", "3");
             }
         }
+
+        envMap.putAll(topenv);
+
         for (Map.Entry<String, String> env : envMap.entrySet()) {
             Logger.appendToLog("Added custom env: " + env.getKey() + "=" + env.getValue());
             try {
@@ -265,10 +268,10 @@ public class JREUtils {
     }
 
     @SuppressLint("StringFormatInvalid")
-    public static int launchJavaVM(final AppCompatActivity activity, final Runtime runtime, String gameDirectory, final List<String> JVMArgs) throws Throwable {
+    public static int launchJavaVM(final AppCompatActivity activity, final Runtime runtime, String gameDirectory, final List<String> JVMArgs, final Map<String, String> topenv) throws Throwable {
         JREUtils.relocateLibPath(runtime);
 
-        setJavaEnvironment(runtime.path);
+        setJavaEnvironment(runtime.path, topenv);
 
         final String graphicsLib = loadGraphicsLibrary();
         List<String> userArgs = getJavaArgs(runtime.path, gameDirectory);

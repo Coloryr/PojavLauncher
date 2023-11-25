@@ -32,10 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -158,13 +155,21 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
             String jreName = getIntent().getExtras().getString("JAVA_DIR");
             final Runtime runtime = MultiRTUtils.read(jreName);
 
+            Map<String, String> topenv = new HashMap<>();
+            final String[] envKeys = getIntent().getExtras().getStringArray("ENV_KEY");
+            final String[] envValues = getIntent().getExtras().getStringArray("ENV_VALUE");
+
+            for(int a=0;a<envKeys.length;a++) {
+                topenv.put(envKeys[a], envValues[a]);
+            }
+
             if(getIntent().getExtras().getBoolean("openLogOutput", false)) openLogOutput(null);
 
             // No skip detection
             openLogOutput(null);
             new Thread(() -> {
                 try {
-                    final int exit = doCustomInstall(runtime, javaArgs);
+                    final int exit = launchJavaRuntime(runtime, javaArgs, topenv);
                     runOnUiThread(() -> {
                         Intent intent = new Intent();
                         intent.putExtra("res", exit == 0);
@@ -270,7 +275,7 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
                 Toast.LENGTH_SHORT).show();
     }
 
-    public int launchJavaRuntime(Runtime runtime, String[] javaArgs) {
+    public int launchJavaRuntime(Runtime runtime, String[] javaArgs, final Map<String, String> topenv) {
         JREUtils.redirectAndPrintJRELog();
         try {
             List<String> javaArgList = new ArrayList<>();
@@ -292,15 +297,11 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
 
             Logger.appendToLog("Info: Java arguments: " + Arrays.toString(javaArgList.toArray(new String[0])));
 
-            return JREUtils.launchJavaVM(this, runtime, getIntent().getStringExtra("GAME_DIR"),javaArgList);
+            return JREUtils.launchJavaVM(this, runtime, getIntent().getStringExtra("GAME_DIR"),javaArgList, topenv);
         } catch (Throwable th) {
             Tools.showError(this, th, true);
             return -1;
         }
-    }
-
-    private int doCustomInstall(Runtime runtime, String[] javaArgs) {
-        return launchJavaRuntime(runtime, javaArgs);
     }
 
     public void toggleKeyboard(View view) {

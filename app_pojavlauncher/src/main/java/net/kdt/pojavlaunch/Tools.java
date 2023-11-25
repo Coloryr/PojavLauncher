@@ -65,6 +65,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("IOStreamConstructor")
 public final class Tools {
@@ -102,7 +103,7 @@ public final class Tools {
         NATIVE_LIB_DIR = ctx.getApplicationInfo().nativeLibraryDir;
     }
 
-    public static int launchMinecraft(final AppCompatActivity activity, MinecraftProfile minecraftProfile, int port) throws Throwable {
+    public static int launchMinecraft(final AppCompatActivity activity, MinecraftProfile minecraftProfile, int port, final Map<String, String> topenv) throws Throwable {
         Runtime runtime = MultiRTUtils.read(minecraftProfile.javaDir);
         if (runtime == null) {
             Logger.appendToLog("No find runtime in: " + minecraftProfile.javaDir);
@@ -122,7 +123,7 @@ public final class Tools {
 
         javaArgList.addAll(Arrays.asList(minecraftProfile.args));
 
-        return JREUtils.launchJavaVM(activity, runtime, minecraftProfile.gameDir, javaArgList);
+        return JREUtils.launchJavaVM(activity, runtime, minecraftProfile.gameDir, javaArgList, topenv);
     }
 
     public static void buildNotificationChannel(Context context){
