@@ -201,8 +201,20 @@ public class JREUtils {
         envMap.put("MESA_GLSL_CACHE_DIR", Tools.DIR_CACHE.getAbsolutePath());
         //for virgl
         if (LOCAL_RENDERER != null) {
-            envMap.put("MESA_GL_VERSION_OVERRIDE", "4.6");
-            envMap.put("MESA_GLSL_VERSION_OVERRIDE", "460");
+            switch (LOCAL_RENDERER) {
+                case "vulkan_zink":
+                    envMap.put("MESA_GL_VERSION_OVERRIDE", "4.6");
+                    envMap.put("MESA_GLSL_VERSION_OVERRIDE", "460");
+                    break;
+                case "opengles3_virgl":
+                    envMap.put("MESA_GL_VERSION_OVERRIDE", "4.3");
+                    envMap.put("MESA_GLSL_VERSION_OVERRIDE", "430");
+                    break;
+                case "malihw_panfrost":
+                    envMap.put("MESA_GL_VERSION_OVERRIDE", "3.3");
+                    envMap.put("MESA_GLSL_VERSION_OVERRIDE", "330");
+                    break;
+            }
         }
         envMap.put("force_glsl_extensions_warn", "true");
         envMap.put("allow_higher_compat_version", "true");
