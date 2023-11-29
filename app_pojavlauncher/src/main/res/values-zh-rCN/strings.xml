@@ -299,5 +299,7 @@
 
     <string name="preference_vsync_in_zink_title">允许在使用 Zink 时启用垂直同步</string>
     <string name="preference_vsync_in_zink_description">允许启动器使用内部系统 API 为 Zink 启用垂直同步，如果您的启动器在系统更新后在使用 Zink 时突然崩溃，请关闭此选项。</string>
+    <string name="preference_zink_crash_handle_title">使用旧的Bridge</string>
+    <string name="preference_zink_crash_handle">在使用zink启动1.20.x-forge崩溃时开启它,仅影响zink</string>
 
 </resources>

@@ -339,4 +339,6 @@
 
     <string name="preference_vsync_in_zink_title">Allow V-Sync with Zink</string>
     <string name="preference_vsync_in_zink_description">Allows the launcher to use internal system APIs to enable V-Sync for Zink. Turn this off if your launcher suddenly crashes with Zink after a system update.</string>
+    <string name="preference_zink_crash_handle_title">Use old bridge</string>
+    <string name="preference_zink_crash_handle">Turn it on when 1.20.x-forge crashes when you start with zink,only affects zink</string>
 </resources>
