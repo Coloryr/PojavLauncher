@@ -1,5 +1,5 @@
 //
-// Modifile by Vera-Firefly on 28.11.2023.
+// Modifile by Vera-Firefly on 03.01.2024.
 //
 #include <jni.h>
 #include <assert.h>
@@ -14,6 +14,7 @@
 
 #include <EGL/egl.h>
 #include <GL/osmesa.h>
+#include "ctxbridges/egl_loader.h"
 #include "ctxbridges/osmesa_loader.h"
 #include "driver_helper/nsbypass.h"
 
@@ -31,6 +32,7 @@
 #include "ctxbridges/gl_bridge.h"
 #include "ctxbridges/bridge_tbl.h"
 #include "ctxbridges/osm_bridge.h"
+#include "ctxbridges/renderer_config.h"
 
 #define GLFW_CLIENT_API 0x22001
 /* Consider GLFW_NO_API as Vulkan API */
@@ -57,17 +59,9 @@ struct PotatoBridge {
 EGLConfig config;
 struct PotatoBridge potatoBridge;
 
-#include "ctxbridges/egl_loader.h"
-#include "ctxbridges/osmesa_loader.h"
 int (*vtest_main_p) (int argc, char** argv);
 void (*vtest_swap_buffers_p) (void);
 void bigcore_set_affinity();
-
-#define RENDERER_GL4ES 1
-#define RENDERER_VK_ZINK 2
-#define RENDERER_VIRGL 3
-#define RENDERER_VULKAN 4
-#define RENDERER_VK_ZINK_PREF 6
 
 void* egl_make_current(void* window);
 
@@ -250,7 +244,7 @@ int pojavInitOpenGL() {
         pojav_environ->force_vsync = true;
 
     // NOTE: Override for now.
-    const char *renderer = getenv("POJAV_RENDERER");
+    const char *renderer = getenv("POJAV_BETA_RENDERER");
     if (strncmp("opengles3_virgl", renderer, 15) == 0) {
         pojav_environ->config_renderer = RENDERER_VIRGL;
         setenv("GALLIUM_DRIVER","virpipe",1);
@@ -279,6 +273,18 @@ int pojavInitOpenGL() {
         setenv("GALLIUM_DRIVER", "panfrost", 1);
         setenv("PAN_DEBUG","gofaster", 0);
         set_osm_bridge_tbl();
+    } else if (strcmp(renderer, "vulkan_freedreno") == 0) {
+        setenv("GALLIUM_DRIVER", "freedreno", 1);
+        setenv("MESA_LOADER_DRIVER_OVERRIDE", "kgsl", 1);
+        if(getenv("POJAV_ZINK_CRASH_HANDLE") == NULL) {
+            pojav_environ->config_renderer = RENDERER_VK_ZINK;
+            set_osm_bridge_tbl();
+            printf("Bridge: Set osm bridge tbl\n");
+        } else {
+            pojav_environ->config_renderer = RENDERER_VK_ZINK_PREF;
+            loadSymbols();
+            printf("Bridge: Use old bridge\n");
+        }
     }
     if(pojav_environ->config_renderer == RENDERER_VK_ZINK || pojav_environ->config_renderer == RENDERER_GL4ES) {
         if(br_init()) {

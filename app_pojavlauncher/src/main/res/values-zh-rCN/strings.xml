@@ -42,6 +42,7 @@
     <string name="mcl_setting_renderer_vgpu">vgpu - (1.16.5 及以下版本可用，速度较快)</string>
     <string name="mcl_setting_renderer_vulkan_zink">Zink（Vulkan）-（所有版本、中）</string>
     <string name="mcl_setting_renderer_angle">ANGLE - (1.17 及以上版本可用，速度一般)</string>
+    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (所有版本、中)</string>
     <string name="mcl_setting_java_sandbox">沙盒 .jar 可执行文件</string>
     <string name="mcl_setting_java_sandbox_subtitle">当启动 .jar 安装器时，控制沙盒安全管理器的可用性。</string>
     <string name="mcl_setting_renderer_panfrost">Panfrost (Mali) - (全版本, 中)</string>
